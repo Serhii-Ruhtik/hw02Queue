@@ -1,4 +1,4 @@
-package com.gavrikyk.stack;
+package com.gavrikyk;
 
 public interface Stack {
     void push(Object value);
