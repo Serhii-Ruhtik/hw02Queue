@@ -18,11 +18,16 @@ public class ArrayQueue implements Queue {
 
     @Override
     public Object dequeue() {
-
-        if (isEmpty()) { //🤷‍♀️
+        if (isEmpty()) {
             throw new NoSuchElementException("Queue is empty");
         }
-        Object result = array[size-1];
+        Object result = array[0];
+
+        for (int i = 0; i < size - 1; i++) {
+            array[i] = array[i + 1];
+        }
+
+        array[size - 1] = null;
         size--;
         return result;
     }
@@ -39,7 +44,7 @@ public class ArrayQueue implements Queue {
 
     @Override
     public boolean isEmpty() {
-        return true;
+        return size == 0;
     }
 
     @Override

@@ -26,8 +26,8 @@ public class ArrayQueueTest {
 
 
         assertEquals(2, arrayQueue.size());
-//        assertEquals("B",arrayQueue.dequeue());
-//        assertEquals("A",arrayQueue.dequeue());
+        assertEquals("A",arrayQueue.dequeue());
+        assertEquals("B",arrayQueue.dequeue());
         assertEquals(0,arrayQueue.size());
         assertTrue(arrayQueue.isEmpty());
 
