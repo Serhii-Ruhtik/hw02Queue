@@ -1,4 +1,4 @@
-package com.gavrikyk;
+package com.gavrikyk.stack;
 
 public class ArrayStack implements Stack {
     private int size;

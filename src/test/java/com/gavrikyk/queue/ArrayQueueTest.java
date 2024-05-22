@@ -76,6 +76,22 @@ public class ArrayQueueTest {
 
     }
 
+    @Test
+    public void testClear (){
+        ArrayQueue arrayQueue = new ArrayQueue();
+
+        arrayQueue.enqueue("A");
+        arrayQueue.enqueue("B");
+
+        assertFalse(arrayQueue.isEmpty());
+
+        arrayQueue.clear();
+
+        assertTrue(arrayQueue.isEmpty());
+
+
+    }
+
 //    @Test
 //    public void testToString (){
 //        ArrayQueue arrayQueue = new ArrayQueue();

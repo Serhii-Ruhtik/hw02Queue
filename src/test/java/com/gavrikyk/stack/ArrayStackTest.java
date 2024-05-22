@@ -8,7 +8,6 @@ package com.gavrikyk.stack;
 //int size();
 //void clear();
 
-import com.gavrikyk.ArrayStack;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
