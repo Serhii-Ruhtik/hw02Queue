@@ -1,6 +1,7 @@
 package com.gavrikyk.arrayList;
 
 import java.util.Iterator;
+import java.util.StringJoiner;
 
 public class ArrayList implements List{
     private int size;
@@ -17,6 +18,7 @@ public class ArrayList implements List{
 
         array[size] = value;
         size++;
+//        add(value, size); я не зрозумів цієї строки, Толік зробиав рев'ю. у мнене все впало!
     }
 
     private void capacity (){
@@ -50,35 +52,36 @@ public class ArrayList implements List{
         }
         Object removedElement = array[index];
 
-        for (int i = index; i < size; i++) {
-        array[i] = array[i+1];
-        }
+        System.arraycopy(array, index + 1, array, index, size - index - 1);
+
         array[size - 1] = null;
         size--;
 
         return removedElement;
     }
 
+
 //✅
     @Override
     public Object get(int index) {
+        if(index < 0 || index >= size){
+            throw new IndexOutOfBoundsException();
+        }
         return array[index];
     }
 
 //✅
     @Override
     public Object set(Object value, int index) {
+        if(index < 0 || index >= size){
+            throw new IndexOutOfBoundsException();
+        }
         return array[index] = value;
     }
 //✅
     @Override
     public boolean contains(Object value) {
-        for (int i = 0; i <size; i++) {
-            if (array[i].equals(value)) {
-                return true;
-            }
-        }
-        return false;
+        return indexOf(value) != -1;
     }
 //✅
     @Override
@@ -126,16 +129,12 @@ public class ArrayList implements List{
         return null;
     }
 
-//    @Override
-//    public String toString() {
-//        String result = " ";
-//        for (int i = 0; i < size ; i++) {
-//            result += (array[i] + " ");
-//            if (i < size - 1) {
-//                result += ", ";
-//            }
-//        }
-//        System.out.println("[" + result + "]");
-//        return result;
-//    }
+    @Override
+    public String toString() {
+        StringJoiner sj = new StringJoiner(", ", "[", "]");
+        for (int i = 0; i < size; i++) {
+            sj.add(array[i].toString());
+        }
+        return sj.toString();
+    }
 }
