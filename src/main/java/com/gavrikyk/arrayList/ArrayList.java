@@ -1,14 +1,17 @@
 package com.gavrikyk.arrayList;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 public class ArrayList implements List{
+    private static final int DEFAULT_INITIAL_CAPACITY = 5;
+    private static final int DEFAULT_GROWTH_FACTOR = 2;
     private int size;
     private Object[] array;
 
     public ArrayList() {
-        array = new Object[5];
+        array = new Object[DEFAULT_INITIAL_CAPACITY];
     }
 
 //✅
@@ -16,40 +19,25 @@ public class ArrayList implements List{
     public void add(Object value) {
         capacity();
 
-        array[size] = value;
-        size++;
-//        add(value, size); я не зрозумів цієї строки, Толік зробиав рев'ю. у мнене все впало!
-    }
-
-    private void capacity (){
-        if (size == array.length) {
-            Object[] newArray = new Object[array.length*2];
-            for (int i = 0; i < array.length; i++) {
-                newArray[i] = array[i];
-            }
-            array = newArray;
-        }
+        add(value, size);
     }
 
 //✅
     @Override
     public void add(Object value, int index) {
-        for (int i=index; i<size; i++){
-            if(array[i] == null){
-                array[i] = value;
-                break;
-            }
-        }
+        validateIndexForAdd(index);
+        capacity();
 
-
+        System.arraycopy(array, index, array, index +1, size - index);
+        array[index] = value;
+        size++;
     }
 
 //✅
     @Override
     public Object remove(int index) {
-        if(index < 0 || index >= size){
-           throw new IndexOutOfBoundsException();
-        }
+        validateIndex(index);
+
         Object removedElement = array[index];
 
         System.arraycopy(array, index + 1, array, index, size - index - 1);
@@ -64,18 +52,16 @@ public class ArrayList implements List{
 //✅
     @Override
     public Object get(int index) {
-        if(index < 0 || index >= size){
-            throw new IndexOutOfBoundsException();
-        }
+        validateIndex(index);
+
         return array[index];
     }
 
 //✅
     @Override
     public Object set(Object value, int index) {
-        if(index < 0 || index >= size){
-            throw new IndexOutOfBoundsException();
-        }
+        validateIndex(index);
+
         return array[index] = value;
     }
 //✅
@@ -87,7 +73,7 @@ public class ArrayList implements List{
     @Override
     public int indexOf(Object value) {
         for (int i = 0; i < size -1; i++) {
-            if (array[i] == value) {
+            if (Objects.equals(array[i], value)) {
                return i;
             }
         }
@@ -97,7 +83,7 @@ public class ArrayList implements List{
     @Override
     public int lastIndexOf(Object value) {
         for (int i = size -1; i >= 0; i--) {
-            if (array[i] == value) {
+            if (Objects.equals(array[i], value)) {
                 return i;
             }
         }
@@ -136,5 +122,27 @@ public class ArrayList implements List{
             sj.add(array[i].toString());
         }
         return sj.toString();
+    }
+
+    private void capacity (){
+        if (size == array.length) {
+            Object[] newArray = new Object[array.length*DEFAULT_GROWTH_FACTOR];
+            for (int i = 0; i < array.length; i++) {
+                newArray[i] = array[i];
+            }
+            array = newArray;
+        }
+    }
+
+    private void validateIndexForAdd(int index){
+        if(index < 0 || index > size){
+            throw new IndexOutOfBoundsException("Index: " + index + " must be between [ " + 0 + "," + size + "]");
+        }
+    }
+
+    private void validateIndex(int index){
+        if(index < 0 || index > size - 1){
+            throw new IndexOutOfBoundsException("Index: " + index + " must be between [ " + 0 + "," + (size -1) + "]");
+        }
     }
 }
